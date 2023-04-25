@@ -23,5 +23,4 @@
 
 <PageContainer>
 	<SequencePuzzle {givenShapes} on:puzzleComplete={handlePuzzleComplete} />
-	<ConfidenceMetre />
 </PageContainer>

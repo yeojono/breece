@@ -4,19 +4,28 @@
 	import type { ShapeType } from '../model/shapes';
 	import Sequence from './sequence.svelte';
 	import Shape from './shapes/shape.svelte';
+	import ConfidenceMetre from './confidence-metre.svelte';
 
 	export let givenShapes: ShapeType[];
 
 	let enteredShapes: ShapeType[] = [];
+	let enteringConfidence: boolean = false;
 
 	const shapeSet = Array.from(new Set(givenShapes));
 
 	const insertShape = (shape: ShapeType) => {
 		enteredShapes = [...enteredShapes, shape];
+		enteringConfidence = true;
 	};
 
+	const handleSubmitConfidence = ({ detail: { confidence }}) => {
+		console.log(confidence);
+		enteringConfidence = false;
+	}
+
 	const dispatch = createEventDispatcher();
-	$: if (enteredShapes.length >= 3) {
+
+	$: if (enteredShapes.length >= 3 && !enteringConfidence) {
 		dispatch('puzzleComplete');
 	}
 </script>
@@ -31,12 +40,15 @@
 	<h1>What comes next?</h1>
 
 	<div style="display: flex; gap: 16px">
-		<!-- Scan shapes argument for unique shapes and auto build buttons -->
-		{#each shapeSet as shapeOption}
-			<button on:click={() => insertShape(shapeOption)}>
-				<Shape key={shapeOption} size={32} />
-			</button>
-		{/each}
+		{ #if enteringConfidence }
+			<ConfidenceMetre on:submitConfidence={handleSubmitConfidence} />
+		{ :else }
+			{#each shapeSet as shapeOption}
+				<button on:click={() => insertShape(shapeOption)}>
+					<Shape key={shapeOption} size={32} />
+				</button>
+			{/each}
+		{/if}
 	</div>
 </div>
 
