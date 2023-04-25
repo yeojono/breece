@@ -9,10 +9,20 @@
 	}
 
 	const givenShapes = puzzles[puzzleIdx];
+
+	const handlePuzzleComplete = () => {
+		if (puzzleIdx < puzzles.length -1) {
+
+			window.location.href = `/puzzles/${puzzleIdx+1}`
+		} else {
+			window.location.href = `/puzzles/complete`
+
+		}
+	}
 </script>
 
 <div class="container">
-	<SequencePuzzle	{givenShapes} />
+	<SequencePuzzle	{givenShapes} on:puzzleComplete={handlePuzzleComplete} />
 </div>
 
 <style>
