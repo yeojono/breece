@@ -1,4 +1,5 @@
 <script>
+	import ConfidenceMetre from '../../../components/confidence-metre.svelte';
 	import PageContainer from '../../../components/page-container.svelte';
 	import SequencePuzzle from '../../../components/sequence-puzzle.svelte';
 	import { puzzles } from '../../../data/puzzles';
@@ -22,4 +23,5 @@
 
 <PageContainer>
 	<SequencePuzzle {givenShapes} on:puzzleComplete={handlePuzzleComplete} />
+	<ConfidenceMetre />
 </PageContainer>

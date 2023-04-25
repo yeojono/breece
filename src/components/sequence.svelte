@@ -28,7 +28,7 @@
 
 <style>
     .input {
-        background: #f6f5f8;
+        background: white;
         border: 1px solid darkgrey;
         border-radius: 4px;
 
