@@ -1,0 +1,12 @@
+
+<div class="container"><slot/></div>
+
+<style>
+    .container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 32px;
+    }
+  </style>

@@ -1,17 +1,7 @@
 <script>
-
+	import PageContainer from "../../../components/page-container.svelte";
 </script>
 
-<div class="container">
+<PageContainer>
     <h1>Done!</h1>
-</div>
-
-<style>
-  .container {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 32px;
-  }
-</style>
+</PageContainer>
