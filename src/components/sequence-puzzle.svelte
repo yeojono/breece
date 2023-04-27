@@ -21,7 +21,9 @@
 		enteringConfidence = true;
 	};
 
-	const handleSubmitConfidence = ({ detail: { confidence } }) => {
+	const handleSubmitConfidence = ({
+		detail: { confidence }
+	}: CustomEvent<{ confidence: ConfidenceRating }>) => {
 		confidenceRatings.push(confidence);
 		enteringConfidence = false;
 	};
