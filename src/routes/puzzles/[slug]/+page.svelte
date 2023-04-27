@@ -3,7 +3,7 @@
 	import PageContainer from '../../../components/page-container.svelte';
 	import SequencePuzzle from '../../../components/sequence-puzzle.svelte';
 	import { puzzles } from '../../../data/puzzles';
-	import type { ResultStoreType } from '../../../store/result';
+	import type { PuzzleResponse, ResultStoreType } from '../../../store/result';
 	import { onMount } from 'svelte';
 	import { getQueryParam } from '../../../util/window';
 	export let data;
@@ -25,11 +25,8 @@
 
 	const givenShapes = puzzles[puzzleIdx];
 
-	const handlePuzzleComplete = () => {
-		ResultStoreModule.addPuzzleResponseToResult(challengeId, String(puzzleIdx), {
-			shapes: [],
-			confidenceRatings: []
-		});
+	const handlePuzzleComplete = (e: CustomEvent<PuzzleResponse>) => {
+		ResultStoreModule.addPuzzleResponseToResult(challengeId, String(puzzleIdx), e.detail);
 		if (puzzleIdx < puzzles.length - 1) {
 			window.location.href = `/puzzles/${puzzleIdx + 1}?challengeId=${challengeId}`;
 		} else {

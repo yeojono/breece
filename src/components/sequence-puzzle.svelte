@@ -5,11 +5,14 @@
 	import Sequence from './sequence.svelte';
 	import Shape from './shapes/shape.svelte';
 	import ConfidenceMetre from './confidence-metre.svelte';
+	import type { ConfidenceRating, PuzzleResponse } from '../store/result';
 
 	export let givenShapes: ShapeType[];
 
 	let enteredShapes: ShapeType[] = [];
 	let enteringConfidence: boolean = false;
+
+	const confidenceRatings: ConfidenceRating[] = [];
 
 	const shapeSet = Array.from(new Set(givenShapes));
 
@@ -18,15 +21,18 @@
 		enteringConfidence = true;
 	};
 
-	const handleSubmitConfidence = ({ detail: { confidence }}) => {
-		console.log(confidence);
+	const handleSubmitConfidence = ({ detail: { confidence } }) => {
+		confidenceRatings.push(confidence);
 		enteringConfidence = false;
-	}
+	};
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ puzzleComplete: PuzzleResponse }>();
 
 	$: if (enteredShapes.length >= 3 && !enteringConfidence) {
-		dispatch('puzzleComplete');
+		dispatch('puzzleComplete', {
+			shapes: enteredShapes,
+			confidenceRatings
+		});
 	}
 </script>
 
@@ -40,9 +46,9 @@
 	<h1>What comes next?</h1>
 
 	<div style="display: flex; gap: 16px">
-		{ #if enteringConfidence }
+		{#if enteringConfidence}
 			<ConfidenceMetre on:submitConfidence={handleSubmitConfidence} />
-		{ :else }
+		{:else}
 			{#each shapeSet as shapeOption}
 				<button on:click={() => insertShape(shapeOption)}>
 					<Shape key={shapeOption} size={32} />
