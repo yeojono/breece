@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
-	import PageContainer from '../../../components/page-container.svelte';
 	import SequencePuzzle from '../../../components/sequence-puzzle.svelte';
 	import { puzzles } from '../../../data/puzzles';
 	import type { PuzzleResponse, ResultStoreType } from '../../../store/result';
@@ -35,6 +34,4 @@
 	};
 </script>
 
-<PageContainer>
-	<SequencePuzzle {givenShapes} on:puzzleComplete={handlePuzzleComplete} />
-</PageContainer>
+<SequencePuzzle {givenShapes} on:puzzleComplete={handlePuzzleComplete} />

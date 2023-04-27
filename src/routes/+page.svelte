@@ -1,5 +1,4 @@
 <script lang="ts">
-	import PageContainer from '../components/page-container.svelte';
 	import { onMount } from 'svelte';
 	import type { ResultStoreType } from '../store/result';
 	import { generateId } from '../util/id';
@@ -19,6 +18,4 @@
 	};
 </script>
 
-<PageContainer>
-	<a on:click={beginChallenge}>Start</a>
-</PageContainer>
+<a on:click={beginChallenge}>Start</a>
