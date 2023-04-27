@@ -1,13 +1,24 @@
-<script>
+<script lang="ts">
 	import PageContainer from '../components/page-container.svelte';
 	import { onMount } from 'svelte';
+	import type { ResultStoreType } from '../store/result';
+	import { generateId } from '../util/id';
+	import type { Writable } from 'svelte/store';
 
+	let ResultStoreModule: typeof import('../store/result');
+	let ResultStore: Writable<ResultStoreType>;
 	onMount(async () => {
-		const ResultStore = await import('../store/result');
-		console.log(ResultStore);
+		ResultStoreModule = await import('../store/result');
+		ResultStore = ResultStoreModule.store;
 	});
+
+	const beginChallenge = () => {
+		const challengeId = generateId();
+		window.location.href = `/puzzles/0?challengeId=${challengeId}`;
+		ResultStoreModule.createResult(String(challengeId));
+	};
 </script>
 
 <PageContainer>
-	<a href="/puzzles/0">Start</a>
+	<a on:click={beginChallenge}>Start</a>
 </PageContainer>

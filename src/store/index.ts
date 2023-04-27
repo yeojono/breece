@@ -1,1 +1,1 @@
-export * as resultStore from './result'
+export * as resultStore from './result';
