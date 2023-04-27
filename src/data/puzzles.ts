@@ -1,12 +1,12 @@
-import type { ShapeType } from "../model/shapes";
+import type { ShapeType } from '../model/shapes';
 
 export const puzzles: ShapeType[][] = [
-    // Predictable
+	// Predictable
 	['square', 'square', 'circle', 'square', 'square', 'circle'],
-	['square', 'circle', 'square', 'square', 'circle', 'square'],
-	['square', 'circle', 'circle', 'square', 'circle', 'circle'],
-    // Random
-	['square', 'circle', 'square', 'square', 'circle', 'circle'],
-	['square', 'square', 'circle', 'square', 'circle', 'square'],
-	['square', 'circle', 'circle', 'square', 'circle', 'square'],
+	['triangle', 'circle', 'triangle', 'triangle', 'circle', 'triangle'],
+	['triangle', 'star', 'star', 'triangle', 'star', 'star'],
+	// Random
+	['star', 'square', 'star', 'star', 'square', 'square'],
+	['triangle', 'triangle', 'square', 'triangle', 'square', 'triangle'],
+	['square', 'circle', 'circle', 'square', 'circle', 'square']
 ];
