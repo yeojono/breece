@@ -18,4 +18,18 @@
 	};
 </script>
 
-<a on:click={beginChallenge}>Start</a>
+<button on:click={beginChallenge}>START</button>
+
+<style>
+	button {
+		padding: 16px;
+
+		background: #f6f5f8;
+		border: 1px solid darkgray;
+		border-radius: 4px;
+	}
+	button:before {
+		content: '▶ ';
+		color: #0c862f;
+	}
+</style>
