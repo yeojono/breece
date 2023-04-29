@@ -3,6 +3,7 @@
 	import type { ResultStoreType } from '../store/result';
 	import { generateId } from '../util/id';
 	import type { Writable } from 'svelte/store';
+	import DemographicForm from '../components/demographic-form.svelte';
 
 	let ResultStoreModule: typeof import('../store/result');
 	let ResultStore: Writable<ResultStoreType>;
@@ -11,13 +12,20 @@
 		ResultStore = ResultStoreModule.store;
 	});
 
+	let fields = {
+		age: '3',
+		gender: 'male' as const,
+		hasAsdDiagnosis: false,
+	};
+
 	const beginChallenge = () => {
 		const challengeId = generateId();
 		window.location.href = `/puzzles/0?challengeId=${challengeId}`;
-		ResultStoreModule.createResult(String(challengeId));
+		ResultStoreModule.createResult(String(challengeId), fields);
 	};
 </script>
 
+<DemographicForm bind:fields={fields} />
 <button on:click={beginChallenge}>START</button>
 
 <style>
