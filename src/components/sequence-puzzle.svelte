@@ -52,7 +52,7 @@
 			<ConfidenceMetre on:submitConfidence={handleSubmitConfidence} />
 		{:else}
 			{#each shapeSet as shapeOption}
-				<button on:click={() => insertShape(shapeOption)}>
+				<button class="shape-button" on:click={() => insertShape(shapeOption)}>
 					<Shape key={shapeOption} size={32} />
 				</button>
 			{/each}
@@ -77,5 +77,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+
+		cursor: pointer;
+	}
+
+	button:hover {
+		background: #efecf1;
+	}
+
+	button:active {
+		background: #d9d6db;
 	}
 </style>
