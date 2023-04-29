@@ -1,5 +1,10 @@
 export type ShapeType = 
 | 'circle'
+| 'crescent'
+| 'cross'
+| 'octagon'
+| 'pentagon'
+| 'plus'
 | 'square'
 | 'star'
 | 'triangle'
