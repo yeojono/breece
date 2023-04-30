@@ -44,7 +44,7 @@
 
 	const dispatch = createEventDispatcher<{ puzzleComplete: PuzzleResponse }>();
 
-	$: if (enteredSequence.length >= 3 && !enteringConfidence) {
+	$: if (enteredSequence.length === 3 && !enteringConfidence) {
 		dispatch('puzzleComplete', {
 			sequence: enteredSequence,
 			confidenceRatings

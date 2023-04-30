@@ -19,9 +19,9 @@
 		>
             <Shape key={shape}/>
 		</div>
-	{/each}
-
-	{#each loopOf(expectedShapesCount+givenShapesCount-shapes.length) as _, i}
+		{/each}
+		
+		{#each loopOf(Math.max(0, expectedShapesCount+givenShapesCount-shapes.length)) as _, i}
        <div class="input"><div class='placeholder' /></div>
     {/each}
 </div>
