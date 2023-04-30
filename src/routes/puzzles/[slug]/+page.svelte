@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 	import SequencePuzzle from '../../../components/sequence-puzzle.svelte';
-	import { puzzles } from '../../../data/puzzles';
+	import { puzzles, puzzlesV2 } from '../../../data/puzzles';
 	import type { PuzzleResponse, ResultStoreType } from '../../../store/result';
 	import { onMount } from 'svelte';
 	import { getQueryParam } from '../../../util/window';
@@ -22,7 +22,7 @@
 		throw Error('Puzzle not found');
 	}
 
-	const givenShapes = puzzles[puzzleIdx];
+	const puzzleConfig = puzzlesV2[puzzleIdx];
 
 	const handlePuzzleComplete = (e: CustomEvent<PuzzleResponse>) => {
 		ResultStoreModule.addPuzzleResponseToResult(challengeId, String(puzzleIdx), e.detail);
@@ -34,4 +34,4 @@
 	};
 </script>
 
-<SequencePuzzle {givenShapes} on:puzzleComplete={handlePuzzleComplete} />
+<SequencePuzzle {puzzleConfig} on:puzzleComplete={handlePuzzleComplete} />

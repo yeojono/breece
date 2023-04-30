@@ -1,23 +1,37 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import type { ShapeType } from '../model/shapes';
+	import type { SequenceCharacter, ShapeType } from '../model/shapes';
 	import Sequence from './sequence.svelte';
 	import Shape from './shapes/shape.svelte';
 	import ConfidenceMetre from './confidence-metre.svelte';
 	import type { ConfidenceRating, PuzzleResponse } from '../store/result';
+	import {
+		shapesFromCharacterSequence,
+		type PuzzleConfig,
+		sequenceCharacterFromShapeType
+	} from '../data/puzzles';
 
-	export let givenShapes: ShapeType[];
-
+	export let puzzleConfig: PuzzleConfig;
+	let givenShapes: ShapeType[] = shapesFromCharacterSequence(puzzleConfig.sequence, puzzleConfig.a, puzzleConfig.b);
+	
+	let enteredSequence: SequenceCharacter[] = [];
 	let enteredShapes: ShapeType[] = [];
 	let enteringConfidence: boolean = false;
 
+	$: enteredShapes = shapesFromCharacterSequence(
+		enteredSequence.join(''),
+		puzzleConfig.a,
+		puzzleConfig.b
+	);
+
 	const confidenceRatings: ConfidenceRating[] = [];
 
-	const shapeSet = Array.from(new Set(givenShapes));
+	const shapeSet = [puzzleConfig.a, puzzleConfig.b];
 
-	const insertShape = (shape: ShapeType) => {
-		enteredShapes = [...enteredShapes, shape];
+	const appendSequence = (shape: ShapeType) => {
+		const char = sequenceCharacterFromShapeType(puzzleConfig, shape);
+		enteredSequence = [...enteredSequence, char];
 		enteringConfidence = true;
 	};
 
@@ -30,9 +44,9 @@
 
 	const dispatch = createEventDispatcher<{ puzzleComplete: PuzzleResponse }>();
 
-	$: if (enteredShapes.length >= 3 && !enteringConfidence) {
+	$: if (enteredSequence.length >= 3 && !enteringConfidence) {
 		dispatch('puzzleComplete', {
-			shapes: enteredShapes,
+			sequence: enteredSequence,
 			confidenceRatings
 		});
 	}
@@ -52,7 +66,7 @@
 			<ConfidenceMetre on:submitConfidence={handleSubmitConfidence} />
 		{:else}
 			{#each shapeSet as shapeOption}
-				<button class="shape-button" on:click={() => insertShape(shapeOption)}>
+				<button class="shape-button" on:click={() => appendSequence(shapeOption)}>
 					<Shape key={shapeOption} size={32} />
 				</button>
 			{/each}

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { ShapeType } from '../model/shapes';
+import type { SequenceCharacter, ShapeType } from '../model/shapes';
 
 const RESULT_STORE_KEY = 'store:result';
 export type ConfidenceRating = 0 | 1 | 2 | 3;
@@ -7,7 +7,7 @@ export type ConfidenceRating = 0 | 1 | 2 | 3;
 export type PuzzleId = string;
 
 export interface PuzzleResponse {
-	shapes: ShapeType[];
+	sequence: SequenceCharacter[];
 	confidenceRatings: ConfidenceRating[];
 }
 
@@ -55,8 +55,8 @@ store.subscribe((newStore) => {
 });
 
 export const createResult = (key: ResultId, demographicInfo: DemographicInfo) => {
-store.update((prevStore) => ({
-	...prevStore,
+	store.update((prevStore) => ({
+		...prevStore,
 		results: {
 			...prevStore.results,
 			[key]: {
@@ -80,8 +80,8 @@ export const addPuzzleResponseToResult = (
 			[resultId]: {
 				...prevStore.results[resultId],
 				puzzleResponses: {
-					...(prevStore.results[resultId].puzzleResponses),
-					[puzzleId]: puzzleResponse,
+					...prevStore.results[resultId].puzzleResponses,
+					[puzzleId]: puzzleResponse
 				}
 			}
 		}

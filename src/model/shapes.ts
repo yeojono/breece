@@ -8,3 +8,5 @@ export type ShapeType =
 | 'square'
 | 'star'
 | 'triangle'
+
+export type SequenceCharacter = 'A' | 'B';
