@@ -1,5 +1,6 @@
 <script>
 	export let fields = {
+		participantNumber: '13',
 		age: '4',
 		gender: 'female',
 		hasAsdDiagnosis: false
@@ -8,8 +9,13 @@
 
 <div class="form">
 	<div class="form-row">
+		<label for="participant-number">Participant number:</label>
+		<input id="participant-number" type="text" bind:value={fields.participantNumber} />
+	</div>
+
+	<div class="form-row">
 		<label for="age">Age:</label>
-		<input id="age" pattern="[0-9]" type="text" bind:value={fields.age} />
+		<input id="age" type="text" bind:value={fields.age} />
 	</div>
 
 	<div class="form-row">

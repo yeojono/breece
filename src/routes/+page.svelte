@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { ResultStoreType } from '../store/result';
+	import type { DemographicInfo, ResultStoreType, } from '../store/result';
 	import { generateId } from '../util/id';
 	import type { Writable } from 'svelte/store';
 	import DemographicForm from '../components/demographic-form.svelte';
@@ -12,7 +12,8 @@
 		ResultStore = ResultStoreModule.store;
 	});
 
-	let fields = {
+	let fields: DemographicInfo = {
+		participantNumber: '0',
 		age: '3',
 		gender: 'male' as const,
 		hasAsdDiagnosis: false,

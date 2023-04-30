@@ -28,7 +28,7 @@
 	<button class="skip" on:click={handleClick(0)}>skip</button>
 </div>
 
-<style lang="less">
+<style>
 	.container-box {
 		border-radius: 4px;
 		border: 1px solid darkgray;

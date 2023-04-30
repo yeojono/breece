@@ -15,11 +15,16 @@ export type ResultId = string;
 
 type Gender = 'male' | 'female' | '-';
 
-export interface Result {
-	puzzleResponses: { [key: PuzzleId]: PuzzleResponse };
+export interface DemographicInfo {
+	participantNumber: string;
 	age: string;
 	gender: Gender;
 	hasAsdDiagnosis: boolean;
+}
+
+export interface Result {
+	puzzleResponses: { [key: string]: PuzzleResponse };
+	demographicInfo: DemographicInfo;
 	date: string;
 }
 
@@ -49,21 +54,14 @@ store.subscribe((newStore) => {
 	window.localStorage[RESULT_STORE_KEY] = JSON.stringify(newStore);
 });
 
-type DemographicInfo = {
-	age: string;
-	gender: Gender;
-	hasAsdDiagnosis: boolean;
-}
-export const createResult = (key: ResultId, { age, gender, hasAsdDiagnosis }: DemographicInfo) => {
-	store.update((prevStore) => ({
-		...prevStore,
+export const createResult = (key: ResultId, demographicInfo: DemographicInfo) => {
+store.update((prevStore) => ({
+	...prevStore,
 		results: {
 			...prevStore.results,
 			[key]: {
 				puzzleResponses: {},
-				age,
-				gender,
-				hasAsdDiagnosis,
+				demographicInfo,
 				date: new Date().toISOString()
 			}
 		}
@@ -81,7 +79,10 @@ export const addPuzzleResponseToResult = (
 			...prevStore.results,
 			[resultId]: {
 				...prevStore.results[resultId],
-				[puzzleId]: puzzleResponse
+				puzzleResponses: {
+					...(prevStore.results[resultId].puzzleResponses),
+					[puzzleId]: puzzleResponse,
+				}
 			}
 		}
 	}));
