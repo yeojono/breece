@@ -26,6 +26,7 @@
 	};
 </script>
 
+<h1>🧩</h1>
 <DemographicForm bind:fields />
 <div class="buttons-container">
 	<button class="start-btn" on:click={beginChallenge}>START</button>
@@ -38,6 +39,9 @@
 </div>
 
 <style>
+	h1 {
+		margin-top: 0;
+	}
 	.buttons-container {
 		display: flex;
 		gap: 8px;
