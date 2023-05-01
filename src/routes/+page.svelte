@@ -21,6 +21,16 @@
 		window.location.href = `/puzzles/0?challengeId=${challengeId}`;
 		ResultStoreModule.createResult(String(challengeId), fields);
 	};
+
+	const handleClearData = () => {
+		if (
+			confirm(
+				'All previous results will be forgotten. This cannot be undone. Are you sure you wish to proceed?'
+			)
+		) {
+			ResultStoreModule.clearResults();
+		}
+	};
 </script>
 
 <h1>🧩</h1>
@@ -35,7 +45,10 @@
 	>
 </div>
 
-<button class="export-btn" on:click={ResultStoreModule.exportToCsv}>Export results</button>
+<div class="data-btns">
+	<button class="export-btn" on:click={ResultStoreModule.exportToCsv}>Export results</button>
+	<button class="clear-btn" on:click={handleClearData}>⚠️ Clear data</button>
+</div>
 
 <style>
 	h1 {
@@ -60,10 +73,12 @@
 		content: '✍️ ';
 	}
 
-	.export-btn {
+	div.data-btns {
 		position: absolute;
 		top: 4px;
 		left: 4px;
+		display: flex;
+		gap: 4px;
 	}
 	button.export-btn:before {
 		content: '💾 ';

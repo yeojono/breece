@@ -90,6 +90,10 @@ export const addPuzzleResponseToResult = (
 	}));
 };
 
+export const clearResults = () => {
+	store.set(initialStore);
+};
+
 export const exportToCsv = () => {
 	const store: ResultStoreType = getStoreFromLocalStorage();
 	const puzzleColumns = puzzles
