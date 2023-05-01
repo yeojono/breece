@@ -1,7 +1,9 @@
 <script>
+	import { COLORS } from '../../util/colors';
+
 	export let width = 64;
 	export let height = 64;
-	export let fill = '#e64632';
+	export let fill = COLORS.tan;
 </script>
 
 <svg {width} {height} viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
