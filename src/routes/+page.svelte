@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { DemographicInfo, ResultStoreType, } from '../store/result';
+	import type { DemographicInfo, ResultStoreType } from '../store/result';
 	import { generateId } from '../util/id';
 	import type { Writable } from 'svelte/store';
 	import DemographicForm from '../components/demographic-form.svelte';
@@ -16,7 +16,7 @@
 		participantNumber: '0',
 		age: '3',
 		gender: 'male' as const,
-		hasAsdDiagnosis: false,
+		hasAsdDiagnosis: false
 	};
 
 	const beginChallenge = () => {
@@ -26,7 +26,7 @@
 	};
 </script>
 
-<DemographicForm bind:fields={fields} />
+<DemographicForm bind:fields />
 <button on:click={beginChallenge}>START</button>
 
 <style>
