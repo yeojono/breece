@@ -1,21 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { DemographicInfo, ResultStoreType } from '../store/result';
+	import type { DemographicInfo } from '../store/result';
 	import { generateId } from '../util/id';
-	import type { Writable } from 'svelte/store';
 	import DemographicForm from '../components/demographic-form.svelte';
 
 	let ResultStoreModule: typeof import('../store/result');
-	let ResultStore: Writable<ResultStoreType>;
 	onMount(async () => {
 		ResultStoreModule = await import('../store/result');
-		ResultStore = ResultStoreModule.store;
 	});
 
 	let fields: DemographicInfo = {
 		participantNumber: '0',
 		age: '3',
-		gender: 'male' as const,
+		gender: 'female' as const,
 		hasAsdDiagnosis: false
 	};
 
@@ -29,14 +26,16 @@
 <h1>🧩</h1>
 <DemographicForm bind:fields />
 <div class="buttons-container">
-	<button class="start-btn" on:click={beginChallenge}>START</button>
+	<button class="start-btn big-btn" on:click={beginChallenge}>START</button>
 	<button
-		class="practice-btn"
+		class="practice-btn big-btn"
 		on:click={() => {
 			window.location.href = '/practice/0';
 		}}>PRACTICE</button
 	>
 </div>
+
+<button class="export-btn" on:click={ResultStoreModule.exportToCsv}>Export results</button>
 
 <style>
 	h1 {
@@ -46,7 +45,7 @@
 		display: flex;
 		gap: 8px;
 	}
-	button {
+	button.big-btn {
 		padding: 16px;
 
 		background: #f6f5f8;
@@ -58,7 +57,15 @@
 		color: #0c862f;
 	}
 	button.practice-btn:before {
-		content: '✍️';
-		color: #0c862f;
+		content: '✍️ ';
+	}
+
+	.export-btn {
+		position: absolute;
+		top: 4px;
+		left: 4px;
+	}
+	button.export-btn:before {
+		content: '💾 ';
 	}
 </style>

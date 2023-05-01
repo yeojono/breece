@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type { SequenceCharacter, ShapeType } from '../model/shapes';
+import { puzzles } from '../data/puzzles';
 
 const RESULT_STORE_KEY = 'store:result';
 export type ConfidenceRating = 0 | 1 | 2 | 3;
@@ -55,6 +56,7 @@ store.subscribe((newStore) => {
 });
 
 export const createResult = (key: ResultId, demographicInfo: DemographicInfo) => {
+	const date = new Date();
 	store.update((prevStore) => ({
 		...prevStore,
 		results: {
@@ -62,7 +64,7 @@ export const createResult = (key: ResultId, demographicInfo: DemographicInfo) =>
 			[key]: {
 				puzzleResponses: {},
 				demographicInfo,
-				date: new Date().toISOString()
+				date: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
 			}
 		}
 	}));
@@ -88,8 +90,53 @@ export const addPuzzleResponseToResult = (
 	}));
 };
 
-// export const exportToCsv = () => {
-// 	const store: ResultStoreType = getStoreFromLocalStorage();
-// 	let headerRow = 'id,date,';
-// 	Object.entries(store.results).forEach(([k, result]) => {});
-// };
+export const exportToCsv = () => {
+	const store: ResultStoreType = getStoreFromLocalStorage();
+	const puzzleColumns = puzzles
+		.map((p) => p.puzzleId)
+		.sort()
+		.flatMap((pid) => [
+			`${pid} shape1`,
+			`${pid} shape2`,
+			`${pid} shape3`,
+			`${pid} confidence1`,
+			`${pid} confidence2`,
+			`${pid} confidence3`
+		]);
+	const headerRow = `id,date,participant number,age,gender,has ASD diagnosis,${puzzleColumns.join(
+		','
+	)}`;
+
+	const dataRows = Object.entries<typeof store.results.puzzleResponses>(store.results).map(
+		([challengeId, { date, demographicInfo, puzzleResponses }]) => {
+			let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
+			dataRow += Object.entries(puzzleResponses)
+				.sort(([aPuzzleId, _x], [bPuzzleId, _y]) =>
+					aPuzzleId.localeCompare(bPuzzleId, 'en', { numeric: true })
+				)
+				.map(([_puzzleId, response]) => {
+					const responseData = [...response.sequence, ...response.confidenceRatings];
+					return `${responseData.join(',')}`;
+				});
+			return dataRow;
+		}
+	);
+
+	const csvContent = [headerRow, ...dataRows].join('\n');
+	downloadBlob(csvContent);
+};
+
+/** Download contents as a file
+ * Source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
+ */
+function downloadBlob(content: string) {
+	// Create a blob
+	const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+	const url = URL.createObjectURL(blob);
+
+	// Create a link to download it
+	const pom = document.createElement('a');
+	pom.href = url;
+	pom.setAttribute('download', 'result-output.csv');
+	pom.click();
+}
