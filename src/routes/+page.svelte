@@ -27,9 +27,21 @@
 </script>
 
 <DemographicForm bind:fields />
-<button on:click={beginChallenge}>START</button>
+<div class="buttons-container">
+	<button class="start-btn" on:click={beginChallenge}>START</button>
+	<button
+		class="practice-btn"
+		on:click={() => {
+			window.location.href = '/practice/0';
+		}}>PRACTICE</button
+	>
+</div>
 
 <style>
+	.buttons-container {
+		display: flex;
+		gap: 8px;
+	}
 	button {
 		padding: 16px;
 
@@ -37,8 +49,12 @@
 		border: 1px solid darkgray;
 		border-radius: 4px;
 	}
-	button:before {
+	button.start-btn:before {
 		content: '▶ ';
+		color: #0c862f;
+	}
+	button.practice-btn:before {
+		content: '✍️';
 		color: #0c862f;
 	}
 </style>

@@ -29,6 +29,12 @@ export interface PuzzleConfig {
 // 	{ puzzleId: 'random6', sequence: 'ABBABAABA', a: 'cross', b: 'star' }
 // ];
 
+export const practicePuzzles: PuzzleConfig[] = [
+	{ puzzleId: 'easy1', sequence: 'ABABABABA', a: 'triangle', b: 'circle' },
+	{ puzzleId: 'medium2', sequence: 'AABAABAAB', a: 'square', b: 'plus' },
+	{ puzzleId: 'random1', sequence: 'ABAABBBAA', a: 'pentagon', b: 'star' }
+];
+
 export const puzzles: PuzzleConfig[] = [
 	{ puzzleId: 'easy2', sequence: 'ABABABABA', a: 'star', b: 'triangle' },
 	{ puzzleId: 'random1', sequence: 'ABAABBBAA', a: 'octagon', b: 'square' },
