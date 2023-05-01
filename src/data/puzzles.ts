@@ -1,16 +1,5 @@
 import type { SequenceCharacter, ShapeType } from '../model/shapes';
 
-export const puzzles: ShapeType[][] = [
-	// Predictable
-	['square', 'square', 'circle', 'square', 'square', 'circle'],
-	['triangle', 'circle', 'triangle', 'triangle', 'circle', 'triangle'],
-	['triangle', 'star', 'star', 'triangle', 'star', 'star'],
-	// Random
-	['star', 'square', 'star', 'star', 'square', 'square'],
-	['triangle', 'triangle', 'square', 'triangle', 'square', 'triangle'],
-	['square', 'circle', 'circle', 'square', 'circle', 'square']
-];
-
 export interface PuzzleConfig {
 	sequence: string;
 	a: ShapeType;
@@ -39,7 +28,10 @@ export const shapesFromCharacterSequence = (sequence: string, a: ShapeType, b: S
 	});
 };
 
-export const sequenceCharacterFromShapeType = (config: PuzzleConfig, shape: ShapeType): SequenceCharacter => {
+export const sequenceCharacterFromShapeType = (
+	config: PuzzleConfig,
+	shape: ShapeType
+): SequenceCharacter => {
 	if (config.a === shape) {
 		return 'A';
 	} else if (config.b === shape) {
