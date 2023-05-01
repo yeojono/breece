@@ -87,3 +87,9 @@ export const addPuzzleResponseToResult = (
 		}
 	}));
 };
+
+// export const exportToCsv = () => {
+// 	const store: ResultStoreType = getStoreFromLocalStorage();
+// 	let headerRow = 'id,date,';
+// 	Object.entries(store.results).forEach(([k, result]) => {});
+// };
