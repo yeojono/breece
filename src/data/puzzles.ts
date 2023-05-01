@@ -6,14 +6,27 @@ export interface PuzzleConfig {
 	b: ShapeType;
 }
 export const puzzlesV2: PuzzleConfig[] = [
-	// Predictable
-	{ sequence: 'AABAAB', a: 'square', b: 'circle' },
-	{ sequence: 'ABAABA', a: 'star', b: 'triangle' },
-	{ sequence: 'ABBABB', a: 'plus', b: 'octagon' },
+	// Easy
+	{ sequence: 'ABABABABA', a: 'square', b: 'circle' },
+	{ sequence: 'ABABABABA', a: 'star', b: 'triangle' },
+	{ sequence: 'ABABABABA', a: 'plus', b: 'octagon' },
+	{ sequence: 'ABABABABA', a: 'star', b: 'square' },
+	{ sequence: 'ABABABABA', a: 'plus', b: 'circle' },
+	{ sequence: 'ABABABABA', a: 'triangle', b: 'octagon' },
+	// Medium
+	{ sequence: 'AABAABAAB', a: 'circle', b: 'star' },
+	{ sequence: 'AABAABAAB', a: 'plus', b: 'triangle' },
+	{ sequence: 'ABAABAABA', a: 'pentagon', b: 'square' },
+	{ sequence: 'ABAABAABA', a: 'cross', b: 'octagon' },
+	{ sequence: 'ABBABBABB', a: 'crescent', b: 'plus' },
+	{ sequence: 'ABBABBABB', a: 'square', b: 'pentagon' },
 	// Random
-	{ sequence: 'ABAABB', a: 'pentagon', b: 'cross' },
-	{ sequence: 'AABABA', a: 'crescent', b: 'square' },
-	{ sequence: 'ABBABA', a: 'plus', b: 'star' }
+	{ sequence: 'ABAABBBAA', a: 'octagon', b: 'square' },
+	{ sequence: 'ABAABBBAA', a: 'pentagon', b: 'triangle' },
+	{ sequence: 'AABABAAAB', a: 'cross', b: 'crescent' },
+	{ sequence: 'AABABAAAB', a: 'crescent', b: 'circle' },
+	{ sequence: 'ABBABAABA', a: 'star', b: 'circle' },
+	{ sequence: 'ABBABAABA', a: 'cross', b: 'star' }
 ];
 
 export const shapesFromCharacterSequence = (sequence: string, a: ShapeType, b: ShapeType) => {
