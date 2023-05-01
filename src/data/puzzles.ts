@@ -1,32 +1,53 @@
 import type { SequenceCharacter, ShapeType } from '../model/shapes';
+import type { PuzzleId } from '../store/result';
 
 export interface PuzzleConfig {
+	puzzleId: PuzzleId;
 	sequence: string;
 	a: ShapeType;
 	b: ShapeType;
 }
-export const puzzlesV2: PuzzleConfig[] = [
-	// Easy
-	{ sequence: 'ABABABABA', a: 'square', b: 'circle' },
-	{ sequence: 'ABABABABA', a: 'star', b: 'triangle' },
-	{ sequence: 'ABABABABA', a: 'plus', b: 'octagon' },
-	{ sequence: 'ABABABABA', a: 'star', b: 'square' },
-	{ sequence: 'ABABABABA', a: 'plus', b: 'circle' },
-	{ sequence: 'ABABABABA', a: 'triangle', b: 'octagon' },
-	// Medium
-	{ sequence: 'AABAABAAB', a: 'circle', b: 'star' },
-	{ sequence: 'AABAABAAB', a: 'plus', b: 'triangle' },
-	{ sequence: 'ABAABAABA', a: 'pentagon', b: 'square' },
-	{ sequence: 'ABAABAABA', a: 'cross', b: 'octagon' },
-	{ sequence: 'ABBABBABB', a: 'crescent', b: 'plus' },
-	{ sequence: 'ABBABBABB', a: 'square', b: 'pentagon' },
-	// Random
-	{ sequence: 'ABAABBBAA', a: 'octagon', b: 'square' },
-	{ sequence: 'ABAABBBAA', a: 'pentagon', b: 'triangle' },
-	{ sequence: 'AABABAAAB', a: 'cross', b: 'crescent' },
-	{ sequence: 'AABABAAAB', a: 'crescent', b: 'circle' },
-	{ sequence: 'ABBABAABA', a: 'star', b: 'circle' },
-	{ sequence: 'ABBABAABA', a: 'cross', b: 'star' }
+
+// export const puzzlesInOrder: PuzzleConfig[] = [
+// 	{ puzzleId: 'easy1', sequence: 'ABABABABA', a: 'square', b: 'circle' },
+// 	{ puzzleId: 'easy2', sequence: 'ABABABABA', a: 'star', b: 'triangle' },
+// 	{ puzzleId: 'easy3', sequence: 'ABABABABA', a: 'plus', b: 'octagon' },
+// 	{ puzzleId: 'easy4', sequence: 'ABABABABA', a: 'star', b: 'square' },
+// 	{ puzzleId: 'easy5', sequence: 'ABABABABA', a: 'plus', b: 'circle' },
+// 	{ puzzleId: 'easy6', sequence: 'ABABABABA', a: 'triangle', b: 'octagon' },
+// 	{ puzzleId: 'medium1', sequence: 'AABAABAAB', a: 'circle', b: 'star' },
+// 	{ puzzleId: 'medium2', sequence: 'AABAABAAB', a: 'plus', b: 'triangle' },
+// 	{ puzzleId: 'medium3', sequence: 'ABAABAABA', a: 'pentagon', b: 'square' },
+// 	{ puzzleId: 'medium4', sequence: 'ABAABAABA', a: 'cross', b: 'octagon' },
+// 	{ puzzleId: 'medium5', sequence: 'ABBABBABB', a: 'crescent', b: 'plus' },
+// 	{ puzzleId: 'medium6', sequence: 'ABBABBABB', a: 'square', b: 'pentagon' },
+// 	{ puzzleId: 'random1', sequence: 'ABAABBBAA', a: 'octagon', b: 'square' },
+// 	{ puzzleId: 'random2', sequence: 'ABAABBBAA', a: 'pentagon', b: 'triangle' },
+// 	{ puzzleId: 'random3', sequence: 'AABABAAAB', a: 'cross', b: 'crescent' },
+// 	{ puzzleId: 'random4', sequence: 'AABABAAAB', a: 'crescent', b: 'circle' },
+// 	{ puzzleId: 'random5', sequence: 'ABBABAABA', a: 'star', b: 'circle' },
+// 	{ puzzleId: 'random6', sequence: 'ABBABAABA', a: 'cross', b: 'star' }
+// ];
+
+export const puzzles: PuzzleConfig[] = [
+	{ puzzleId: 'easy2', sequence: 'ABABABABA', a: 'star', b: 'triangle' },
+	{ puzzleId: 'random1', sequence: 'ABAABBBAA', a: 'octagon', b: 'square' },
+	{ puzzleId: 'medium1', sequence: 'AABAABAAB', a: 'circle', b: 'star' },
+	{ puzzleId: 'random3', sequence: 'AABABAAAB', a: 'cross', b: 'crescent' },
+	{ puzzleId: 'medium2', sequence: 'AABAABAAB', a: 'plus', b: 'triangle' },
+	{ puzzleId: 'medium6', sequence: 'ABBABBABB', a: 'square', b: 'pentagon' },
+	{ puzzleId: 'easy1', sequence: 'ABABABABA', a: 'square', b: 'circle' },
+	{ puzzleId: 'random2', sequence: 'ABAABBBAA', a: 'pentagon', b: 'triangle' },
+	{ puzzleId: 'random6', sequence: 'ABBABAABA', a: 'cross', b: 'star' },
+	{ puzzleId: 'easy4', sequence: 'ABABABABA', a: 'star', b: 'square' },
+	{ puzzleId: 'medium5', sequence: 'ABBABBABB', a: 'crescent', b: 'plus' },
+	{ puzzleId: 'easy3', sequence: 'ABABABABA', a: 'plus', b: 'octagon' },
+	{ puzzleId: 'random5', sequence: 'ABBABAABA', a: 'star', b: 'circle' },
+	{ puzzleId: 'medium4', sequence: 'ABAABAABA', a: 'cross', b: 'octagon' },
+	{ puzzleId: 'easy5', sequence: 'ABABABABA', a: 'plus', b: 'circle' },
+	{ puzzleId: 'easy6', sequence: 'ABABABABA', a: 'triangle', b: 'octagon' },
+	{ puzzleId: 'random4', sequence: 'AABABAAAB', a: 'crescent', b: 'circle' },
+	{ puzzleId: 'medium3', sequence: 'ABAABAABA', a: 'pentagon', b: 'square' }
 ];
 
 export const shapesFromCharacterSequence = (sequence: string, a: ShapeType, b: ShapeType) => {

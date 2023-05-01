@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Writable } from 'svelte/store';
 	import SequencePuzzle from '../../../components/sequence-puzzle.svelte';
-	import { puzzlesV2 } from '../../../data/puzzles';
+	import { puzzles } from '../../../data/puzzles';
 	import type { PuzzleResponse, ResultStoreType } from '../../../store/result';
 	import { onMount } from 'svelte';
 	import { getQueryParam } from '../../../util/window';
@@ -18,15 +18,15 @@
 	});
 
 	const puzzleIdx = Number(data.slug);
-	if (puzzlesV2[puzzleIdx] === undefined) {
+	if (puzzles[puzzleIdx] === undefined) {
 		throw Error('Puzzle not found');
 	}
 
-	const puzzleConfig = puzzlesV2[puzzleIdx];
+	const puzzleConfig = puzzles[puzzleIdx];
 
 	const handlePuzzleComplete = (e: CustomEvent<PuzzleResponse>) => {
-		ResultStoreModule.addPuzzleResponseToResult(challengeId, String(puzzleIdx), e.detail);
-		if (puzzleIdx < puzzlesV2.length - 1) {
+		ResultStoreModule.addPuzzleResponseToResult(challengeId, puzzleConfig.puzzleId, e.detail);
+		if (puzzleIdx < puzzles.length - 1) {
 			window.location.href = `/puzzles/${puzzleIdx + 1}?challengeId=${challengeId}`;
 		} else {
 			window.location.href = `/puzzles/complete?challengeId=${challengeId}`;
