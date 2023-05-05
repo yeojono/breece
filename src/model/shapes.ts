@@ -9,4 +9,4 @@ export type ShapeType =
 | 'star'
 | 'triangle'
 
-export type SequenceCharacter = 'A' | 'B';
+export type SequenceCharacter = 'A' | 'B' | 'SKIP';

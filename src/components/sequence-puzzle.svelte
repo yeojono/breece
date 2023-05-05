@@ -13,8 +13,12 @@
 	} from '../data/puzzles';
 
 	export let puzzleConfig: PuzzleConfig;
-	let givenShapes: ShapeType[] = shapesFromCharacterSequence(puzzleConfig.sequence, puzzleConfig.a, puzzleConfig.b);
-	
+	let givenShapes: ShapeType[] = shapesFromCharacterSequence(
+		puzzleConfig.sequence,
+		puzzleConfig.a,
+		puzzleConfig.b
+	);
+
 	let enteredSequence: SequenceCharacter[] = [];
 	let enteredShapes: ShapeType[] = [];
 	let enteringConfidence: boolean = false;
@@ -50,6 +54,21 @@
 			confidenceRatings
 		});
 	}
+
+	const handleSkip = () => {
+		const dispatchedSequence = [ ...enteredSequence ];
+		const dispatchedRatings = [ ...confidenceRatings ];
+		const oldSequenceLength = dispatchedSequence.length;
+		const oldRatingsLength = dispatchedRatings.length;
+		dispatchedSequence.length = 3;
+		dispatchedRatings.length = 3;
+		dispatchedSequence.fill('SKIP', oldSequenceLength)
+		dispatchedRatings.fill(0, oldRatingsLength)
+		dispatch('puzzleComplete', {
+			sequence: dispatchedSequence,
+			confidenceRatings: dispatchedRatings
+		});
+	};
 </script>
 
 <div style="display: flex; flex-direction: column; align-items: center;">
@@ -72,6 +91,7 @@
 			{/each}
 		{/if}
 	</div>
+	<button class="skip" on:click={handleSkip}>skip</button>
 </div>
 
 <style>
@@ -101,5 +121,16 @@
 
 	button:active {
 		background: #d9d6db;
+	}
+
+	button.skip {
+		position: absolute;
+		bottom: 4px;
+		left: 4px;
+
+		background: none;
+		border: none;
+		padding: none;
+		cursor: pointer;
 	}
 </style>

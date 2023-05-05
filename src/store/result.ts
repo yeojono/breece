@@ -111,20 +111,24 @@ export const exportToCsv = () => {
 		','
 	)}`;
 
-	const dataRows = Object.entries<typeof store.results.puzzleResponses>(store.results).map(
-		([challengeId, { date, demographicInfo, puzzleResponses }]) => {
-			let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
-			dataRow += Object.entries(puzzleResponses)
-				.sort(([aPuzzleId, _x], [bPuzzleId, _y]) =>
-					aPuzzleId.localeCompare(bPuzzleId, 'en', { numeric: true })
-				)
-				.map(([_puzzleId, response]) => {
-					const responseData = [...response.sequence, ...response.confidenceRatings];
-					return `${responseData.join(',')}`;
-				});
-			return dataRow;
-		}
-	);
+	const dataRows = Object.entries<typeof store.results.puzzleResponses>(store.results)
+		.map(([challengeId, { date, demographicInfo, puzzleResponses }]) => {
+			try {
+				let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
+				dataRow += Object.entries(puzzleResponses)
+					.sort(([aPuzzleId, _x], [bPuzzleId, _y]) =>
+						aPuzzleId.localeCompare(bPuzzleId, 'en', { numeric: true })
+					)
+					.map(([_puzzleId, response]) => {
+						const responseData = [...response.sequence, ...response.confidenceRatings];
+						return `${responseData.join(',')}`;
+					});
+				return dataRow;
+			} catch (e) {
+				return null;
+			}
+		})
+		.filter((r) => r != null);
 
 	const csvContent = [headerRow, ...dataRows].join('\n');
 	downloadBlob(csvContent);
