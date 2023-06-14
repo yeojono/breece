@@ -46,8 +46,8 @@
 </div>
 
 <div class="data-btns">
-	<button class="export-btn" on:click={ResultStoreModule.exportToCsv}>Export results</button>
-	<button class="clear-btn" on:click={handleClearData}>⚠️ Clear data</button>
+	<button class="export-btn" on:click={ResultStoreModule.exportToCsv}>Export Results</button>
+	<button class="clear-btn" on:click={handleClearData}>⚠️ Clear Data</button>
 </div>
 
 <style>
