@@ -96,9 +96,10 @@ export const clearResults = () => {
 
 export const exportToCsv = () => {
 	const store: ResultStoreType = getStoreFromLocalStorage();
-	const puzzleColumns = puzzles
+	const puzzleOrder = puzzles
 		.map((p) => p.puzzleId)
-		.sort()
+		.sort();
+	const puzzleColumns = puzzleOrder
 		.flatMap((pid) => [
 			`${pid} shape1`,
 			`${pid} shape2`,
@@ -115,14 +116,17 @@ export const exportToCsv = () => {
 		.map(([challengeId, { date, demographicInfo, puzzleResponses }]) => {
 			try {
 				let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
-				dataRow += Object.entries(puzzleResponses)
-					.sort(([aPuzzleId, _x], [bPuzzleId, _y]) =>
-						aPuzzleId.localeCompare(bPuzzleId, 'en', { numeric: true })
-					)
-					.map(([_puzzleId, response]) => {
-						const responseData = [...response.sequence, ...response.confidenceRatings];
-						return `${responseData.join(',')}`;
-					});
+				dataRow += puzzleOrder
+					.map((pid) => {
+						if (puzzleResponses[pid] !== undefined) {
+							const response = puzzleResponses[pid];
+							const responseData = [...response.sequence, ...response.confidenceRatings];
+							return `${pid}${responseData.join(',')}`;
+						} else {
+							return `${pid}${Array(6).fill('N/A').join(',')}`;
+						}
+					})
+					.join(',');
 				return dataRow;
 			} catch (e) {
 				return null;
