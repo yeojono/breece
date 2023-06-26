@@ -25,7 +25,6 @@
 	const puzzleConfig = puzzles[puzzleIdx];
 
 	const handlePuzzleComplete = (e: CustomEvent<PuzzleResponse>) => {
-		console.log(e.detail);
 		ResultStoreModule.addPuzzleResponseToResult(challengeId, puzzleConfig.puzzleId, e.detail);
 		if (puzzleIdx < puzzles.length - 1) {
 			window.location.href = `/puzzles/${puzzleIdx + 1}?challengeId=${challengeId}`;
