@@ -5,7 +5,7 @@
 	import Sequence from './sequence.svelte';
 	import Shape from './shapes/shape.svelte';
 	import ConfidenceMetre from './confidence-metre.svelte';
-	import type { ConfidenceRating, PuzzleResponse } from '../store/result';
+	import type { ConfidenceRating, ConfidenceRatingResponse, PuzzleResponse, SequenceResponse } from '../store/result';
 	import {
 		shapesFromCharacterSequence,
 		type PuzzleConfig,
@@ -29,20 +29,29 @@
 		puzzleConfig.b
 	);
 
-	const confidenceRatings: ConfidenceRating[] = [];
+	const sequence: SequenceResponse[] = [];
+	const confidenceRatings: ConfidenceRatingResponse[] = [];
 
 	const shapeSet = [puzzleConfig.a, puzzleConfig.b];
+
+	// initialise timestamp to onload
+	let responseTimestamp = Date.now();
 
 	const appendSequence = (shape: ShapeType) => {
 		const char = sequenceCharacterFromShapeType(puzzleConfig, shape);
 		enteredSequence = [...enteredSequence, char];
+		const responseTime = (Date.now()-responseTimestamp)/1000;
+		sequence.push({ character: char, responseTime })
+		responseTimestamp = Date.now()
 		enteringConfidence = true;
 	};
 
 	const handleSubmitConfidence = ({
 		detail: { confidence }
 	}: CustomEvent<{ confidence: ConfidenceRating }>) => {
-		confidenceRatings.push(confidence);
+		const responseTime = (Date.now()-responseTimestamp)/1000;
+		confidenceRatings.push({ confidenceRating: confidence, responseTime });
+		responseTimestamp = Date.now()
 		enteringConfidence = false;
 	};
 
@@ -50,23 +59,23 @@
 
 	$: if (enteredSequence.length === 3 && !enteringConfidence) {
 		dispatch('puzzleComplete', {
-			sequence: enteredSequence,
-			confidenceRatings
+			sequence,
+			confidenceRatings,
 		});
 	}
 
 	const handleSkip = () => {
-		const dispatchedSequence = [ ...enteredSequence ];
+		const dispatchedSequence = [ ...sequence ];
 		const dispatchedRatings = [ ...confidenceRatings ];
 		const oldSequenceLength = dispatchedSequence.length;
 		const oldRatingsLength = dispatchedRatings.length;
 		dispatchedSequence.length = 3;
 		dispatchedRatings.length = 3;
-		dispatchedSequence.fill('SKIP', oldSequenceLength)
-		dispatchedRatings.fill(0, oldRatingsLength)
+		dispatchedSequence.fill({character: 'SKIP', responseTime: 0}, oldSequenceLength)
+		dispatchedRatings.fill({confidenceRating: 0, responseTime: 0}, oldRatingsLength)
 		dispatch('puzzleComplete', {
 			sequence: dispatchedSequence,
-			confidenceRatings: dispatchedRatings
+			confidenceRatings: dispatchedRatings,
 		});
 	};
 </script>

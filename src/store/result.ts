@@ -7,9 +7,19 @@ export type ConfidenceRating = 0 | 1 | 2 | 3;
 
 export type PuzzleId = string;
 
+export interface SequenceResponse {
+	character: SequenceCharacter,
+	responseTime: number,
+}
+
+export interface ConfidenceRatingResponse {
+	confidenceRating: ConfidenceRating,
+	responseTime: number,
+}
+
 export interface PuzzleResponse {
-	sequence: SequenceCharacter[];
-	confidenceRatings: ConfidenceRating[];
+	sequence: SequenceResponse[];
+	confidenceRatings: ConfidenceRatingResponse[];
 }
 
 export type ResultId = string;
@@ -102,11 +112,17 @@ export const exportToCsv = () => {
 	const puzzleColumns = puzzleOrder
 		.flatMap((pid) => [
 			`${pid} shape1`,
+			`${pid} shape1 time`,
 			`${pid} shape2`,
+			`${pid} shape2 time`,
 			`${pid} shape3`,
+			`${pid} shape3 time`,
 			`${pid} confidence1`,
+			`${pid} confidence1 time`,
 			`${pid} confidence2`,
-			`${pid} confidence3`
+			`${pid} confidence2 time`,
+			`${pid} confidence3`,
+			`${pid} confidence3 time`,
 		]);
 	const headerRow = `id,date,participant number,age,gender,has ASD diagnosis,${puzzleColumns.join(
 		','
@@ -120,10 +136,15 @@ export const exportToCsv = () => {
 					.map((pid) => {
 						if (puzzleResponses[pid] !== undefined) {
 							const response = puzzleResponses[pid];
-							const responseData = [...response.sequence, ...response.confidenceRatings];
-							return `${pid}${responseData.join(',')}`;
+							const sequenceString = response.sequence
+								.map((resp) => `${resp.character},${resp.responseTime}`)
+								.join(',');
+							const confidenceRatingString = response.confidenceRatings
+								.map((resp) => `${resp.confidenceRating},${resp.responseTime}`)
+								.join(',');
+							return `${sequenceString},${confidenceRatingString}`;
 						} else {
-							return `${pid}${Array(6).fill('N/A').join(',')}`;
+							return `${Array(12).fill('N/A').join(',')}`;
 						}
 					})
 					.join(',');
