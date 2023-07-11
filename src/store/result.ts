@@ -7,9 +7,19 @@ export type ConfidenceRating = 0 | 1 | 2 | 3;
 
 export type PuzzleId = string;
 
+export interface SequenceResponse {
+	character: SequenceCharacter,
+	responseTime: number,
+}
+
+export interface ConfidenceRatingResponse {
+	confidenceRating: ConfidenceRating,
+	responseTime: number,
+}
+
 export interface PuzzleResponse {
-	sequence: SequenceCharacter[];
-	confidenceRatings: ConfidenceRating[];
+	sequence: SequenceResponse[];
+	confidenceRatings: ConfidenceRatingResponse[];
 }
 
 export type ResultId = string;
@@ -96,16 +106,23 @@ export const clearResults = () => {
 
 export const exportToCsv = () => {
 	const store: ResultStoreType = getStoreFromLocalStorage();
-	const puzzleColumns = puzzles
+	const puzzleOrder = puzzles
 		.map((p) => p.puzzleId)
-		.sort()
+		.sort();
+	const puzzleColumns = puzzleOrder
 		.flatMap((pid) => [
 			`${pid} shape1`,
+			`${pid} shape1 time`,
 			`${pid} shape2`,
+			`${pid} shape2 time`,
 			`${pid} shape3`,
+			`${pid} shape3 time`,
 			`${pid} confidence1`,
+			`${pid} confidence1 time`,
 			`${pid} confidence2`,
-			`${pid} confidence3`
+			`${pid} confidence2 time`,
+			`${pid} confidence3`,
+			`${pid} confidence3 time`,
 		]);
 	const headerRow = `id,date,participant number,age,gender,has ASD diagnosis,${puzzleColumns.join(
 		','
@@ -115,14 +132,22 @@ export const exportToCsv = () => {
 		.map(([challengeId, { date, demographicInfo, puzzleResponses }]) => {
 			try {
 				let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
-				dataRow += Object.entries(puzzleResponses)
-					.sort(([aPuzzleId, _x], [bPuzzleId, _y]) =>
-						aPuzzleId.localeCompare(bPuzzleId, 'en', { numeric: true })
-					)
-					.map(([_puzzleId, response]) => {
-						const responseData = [...response.sequence, ...response.confidenceRatings];
-						return `${responseData.join(',')}`;
-					});
+				dataRow += puzzleOrder
+					.map((pid) => {
+						if (puzzleResponses[pid] !== undefined) {
+							const response = puzzleResponses[pid];
+							const sequenceString = response.sequence
+								.map((resp) => `${resp.character},${resp.responseTime}`)
+								.join(',');
+							const confidenceRatingString = response.confidenceRatings
+								.map((resp) => `${resp.confidenceRating},${resp.responseTime}`)
+								.join(',');
+							return `${sequenceString},${confidenceRatingString}`;
+						} else {
+							return `${Array(12).fill('N/A').join(',')}`;
+						}
+					})
+					.join(',');
 				return dataRow;
 			} catch (e) {
 				return null;
