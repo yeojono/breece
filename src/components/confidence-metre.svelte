@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import RatingFaceALittleSure from './shapes/rating-face-a-little-sure.svelte';
-	import RatingFaceNotSure from './shapes/rating-face-not-sure.svelte';
-	import RatingFaceVerySure from './shapes/rating-face-very-sure.svelte';
 
 	const dispatch = createEventDispatcher();
 	const handleClick = (confidence: number) => () => {
@@ -14,15 +11,15 @@
 	How confident are you?
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<span class="rating" on:click={handleClick(3)}>
-		<RatingFaceVerySure />
+		<img src="/very-sure.jpeg" alt="Very sure">
 	</span>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<span class="rating" on:click={handleClick(2)}>
-		<RatingFaceALittleSure />
+		<img src="/a-little-sure.jpeg" alt="A little sure">
 	</span>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<span class="rating" on:click={handleClick(1)}>
-		<RatingFaceNotSure />
+		<img src="/not-sure.jpeg" alt="Not sure">
 	</span>
 
 	<button class="skip" on:click={handleClick(0)}>skip</button>
@@ -46,6 +43,10 @@
 
 	.rating {
 		cursor:pointer;
+	}
+	
+	.rating img {
+		width: 96px;
 	}
 
 	button.skip {
