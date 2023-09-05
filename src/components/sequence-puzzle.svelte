@@ -100,7 +100,11 @@
 			{/each}
 		{/if}
 	</div>
-	<button class="skip" on:click={handleSkip}>skip</button>
+	{#if !enteringConfidence}
+		<button class="skip-button" on:click={handleSkip}>
+			Skip
+		</button>
+	{/if}
 </div>
 
 <style>
@@ -108,14 +112,20 @@
 		padding: 16px;
 	}
 
+	.shape-button {
+		min-width: 40px;
+		min-height: 40px;
+		padding: 32px;
+	}
+
+	.skip-button {
+		padding: 24px 32px;
+	}
+
 	button {
 		background: #f6f5f8;
 		border: 1px solid darkgrey;
 		border-radius: 4px;
-
-		min-width: 40px;
-		min-height: 40px;
-		padding: 32px;
 
 		display: flex;
 		align-items: center;
@@ -130,16 +140,5 @@
 
 	button:active {
 		background: #d9d6db;
-	}
-
-	button.skip {
-		position: absolute;
-		bottom: 4px;
-		left: 4px;
-
-		background: none;
-		border: none;
-		padding: none;
-		cursor: pointer;
 	}
 </style>
