@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { DemographicInfo } from '../store/result';
 	import { generateId } from '../util/id';
+	import { puzzles } from '../data/puzzles';
 	import DemographicForm from '../components/demographic-form.svelte';
 
 	let ResultStoreModule: typeof import('../store/result');
@@ -18,8 +19,10 @@
 
 	const beginChallenge = () => {
 		const challengeId = generateId();
-		window.location.href = `/puzzles/0?challengeId=${challengeId}`;
 		ResultStoreModule.createResult(String(challengeId), fields);
+		const randomOrder = ResultStoreModule.getResult(challengeId).puzzleOrder;
+		const slug = Object.keys(puzzles).indexOf(randomOrder[0]);
+		window.location.href = `/puzzles/${slug}?challengeId=${challengeId}`;
 	};
 
 	const handleClearData = () => {

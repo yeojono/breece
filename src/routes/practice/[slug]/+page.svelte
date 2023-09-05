@@ -12,16 +12,17 @@
 		challengeId = getQueryParam('challengeId');
 	});
 
-	const puzzleIdx = Number(data.slug);
-	if (practicePuzzles[puzzleIdx] === undefined) {
+	// slug -> index in puzzle keys
+	const puzzleIndex = Number(data.slug);
+	const practiceOrder = Object.keys(practicePuzzles);
+	const puzzleConfig = practicePuzzles[practiceOrder[puzzleIndex]];
+	if (puzzleConfig === undefined) {
 		throw Error('Puzzle not found');
 	}
 
-	const puzzleConfig = practicePuzzles[puzzleIdx];
-
 	const handlePuzzleComplete = (e: CustomEvent<PuzzleResponse>) => {
-		if (puzzleIdx < practicePuzzles.length - 1) {
-			window.location.href = `/practice/${puzzleIdx + 1}`;
+		if (puzzleIndex < Object.keys(practicePuzzles).length - 1) {
+			window.location.href = `/practice/${puzzleIndex + 1}`;
 		} else {
 			window.location.href = `/`;
 		}

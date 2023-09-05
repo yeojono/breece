@@ -34,6 +34,7 @@ export interface DemographicInfo {
 }
 
 export interface Result {
+	puzzleOrder: string[]
 	puzzleResponses: { [key: string]: PuzzleResponse };
 	demographicInfo: DemographicInfo;
 	date: string;
@@ -45,7 +46,7 @@ export interface ResultStoreType {
 
 const initialStore: ResultStoreType = { results: {} };
 
-const getStoreFromLocalStorage = () => {
+const getStoreFromLocalStorage = (): ResultStoreType => {
 	const lsEntry = window.localStorage[RESULT_STORE_KEY];
 	let storeFromLocalStorage;
 	try {
@@ -72,6 +73,7 @@ export const createResult = (key: ResultId, demographicInfo: DemographicInfo) =>
 		results: {
 			...prevStore.results,
 			[key]: {
+				puzzleOrder: Object.keys(puzzles).sort(() => Math.random() - 0.5),
 				puzzleResponses: {},
 				demographicInfo,
 				date: `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
@@ -79,6 +81,11 @@ export const createResult = (key: ResultId, demographicInfo: DemographicInfo) =>
 		}
 	}));
 };
+
+export const getResult = (key: ResultId) => {
+	const store: ResultStoreType = getStoreFromLocalStorage();
+	return store.results[key];
+}
 
 export const addPuzzleResponseToResult = (
 	resultId: string,
@@ -93,7 +100,7 @@ export const addPuzzleResponseToResult = (
 				...prevStore.results[resultId],
 				puzzleResponses: {
 					...prevStore.results[resultId].puzzleResponses,
-					[puzzleId]: puzzleResponse
+					[puzzleId]: puzzleResponse,
 				}
 			}
 		}
@@ -106,34 +113,33 @@ export const clearResults = () => {
 
 export const exportToCsv = () => {
 	const store: ResultStoreType = getStoreFromLocalStorage();
-	const puzzleOrder = puzzles
-		.map((p) => p.puzzleId)
-		.sort();
-	const puzzleColumns = puzzleOrder
-		.flatMap((pid) => [
-			`${pid} shape1`,
-			`${pid} shape1 time`,
-			`${pid} shape2`,
-			`${pid} shape2 time`,
-			`${pid} shape3`,
-			`${pid} shape3 time`,
-			`${pid} confidence1`,
-			`${pid} confidence1 time`,
-			`${pid} confidence2`,
-			`${pid} confidence2 time`,
-			`${pid} confidence3`,
-			`${pid} confidence3 time`,
+	const puzzleColumns = Object.keys(puzzles)
+		.flatMap((puzzleId) => [
+			`${puzzleId} order of appearance`,
+			`${puzzleId} shape1`,
+			`${puzzleId} shape1 time`,
+			`${puzzleId} shape2`,
+			`${puzzleId} shape2 time`,
+			`${puzzleId} shape3`,
+			`${puzzleId} shape3 time`,
+			`${puzzleId} confidence1`,
+			`${puzzleId} confidence1 time`,
+			`${puzzleId} confidence2`,
+			`${puzzleId} confidence2 time`,
+			`${puzzleId} confidence3`,
+			`${puzzleId} confidence3 time`,
 		]);
 	const headerRow = `id,date,participant number,age,gender,has ASD diagnosis,${puzzleColumns.join(
 		','
 	)}`;
 
 	const dataRows = Object.entries<typeof store.results.puzzleResponses>(store.results)
-		.map(([challengeId, { date, demographicInfo, puzzleResponses }]) => {
+		.map(([challengeId, { date, demographicInfo, puzzleResponses, puzzleOrder }]) => {
 			try {
 				let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
-				dataRow += puzzleOrder
+				dataRow += Object.keys(puzzles)
 					.map((pid) => {
+						const orderColumn = puzzleOrder.indexOf(pid) + 1
 						if (puzzleResponses[pid] !== undefined) {
 							const response = puzzleResponses[pid];
 							const sequenceString = response.sequence
@@ -142,9 +148,9 @@ export const exportToCsv = () => {
 							const confidenceRatingString = response.confidenceRatings
 								.map((resp) => `${resp.confidenceRating},${resp.responseTime}`)
 								.join(',');
-							return `${sequenceString},${confidenceRatingString}`;
+							return `${orderColumn},${sequenceString},${confidenceRatingString}`;
 						} else {
-							return `${Array(12).fill('N/A').join(',')}`;
+							return `${orderColumn},${Array(12).fill('N/A').join(',')}`;
 						}
 					})
 					.join(',');
