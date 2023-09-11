@@ -162,20 +162,30 @@ export const exportToCsv = () => {
 		.filter((r) => r != null);
 
 	const csvContent = [headerRow, ...dataRows].join('\n');
-	downloadBlob(csvContent);
+	downloadBlob(csvContent, 'result-output.csv', 'text/csv');
 };
+
+export const exportAllData = () => {
+	const keys: string[] = [];
+	for (let i = 0; i < window.localStorage.length; i++) {
+		keys.push(window.localStorage.key(i)!);
+	}
+	const allData = Object.fromEntries(keys.map((k) => [k, localStorage.getItem(k)]));
+	downloadBlob(JSON.stringify(allData), 'data-dump.txt', 'text/json');
+}
+
 
 /** Download contents as a file
  * Source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
  */
-function downloadBlob(content: string) {
+function downloadBlob(content: string, filename: string, type: string) {
 	// Create a blob
-	const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+	const blob = new Blob([content], { type: `${type};charset=utf-8;` });
 	const url = URL.createObjectURL(blob);
 
 	// Create a link to download it
 	const pom = document.createElement('a');
 	pom.href = url;
-	pom.setAttribute('download', 'result-output.csv');
+	pom.setAttribute('download', filename);
 	pom.click();
 }

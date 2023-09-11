@@ -41,16 +41,19 @@
 <div class="buttons-container">
 	<button class="start-btn big-btn" on:click={beginChallenge}>START</button>
 	<button
-		class="practice-btn big-btn"
+		class="big-btn"
 		on:click={() => {
 			window.location.href = '/practice/0';
-		}}>PRACTICE</button
+		}}
 	>
+		✍️ PRACTICE
+	</button>
 </div>
 
 <div class="data-btns">
-	<button class="export-btn" on:click={ResultStoreModule.exportToCsv}>Export Results</button>
-	<button class="clear-btn" on:click={handleClearData}>⚠️ Clear Data</button>
+	<button on:click={ResultStoreModule.exportAllData}>⬇️ Download All Data</button>
+	<button on:click={ResultStoreModule.exportToCsv}>💾 Export Results</button>
+	<button on:click={handleClearData}>⚠️ Clear Data</button>
 </div>
 
 <style>
@@ -72,9 +75,6 @@
 		content: '▶ ';
 		color: #0c862f;
 	}
-	button.practice-btn:before {
-		content: '✍️ ';
-	}
 
 	div.data-btns {
 		position: absolute;
@@ -82,8 +82,5 @@
 		left: 4px;
 		display: flex;
 		gap: 4px;
-	}
-	button.export-btn:before {
-		content: '💾 ';
 	}
 </style>
