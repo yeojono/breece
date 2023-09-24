@@ -14,7 +14,8 @@
 		participantNumber: '0',
 		age: '3',
 		gender: 'female' as const,
-		hasAsdDiagnosis: false
+		dateOfBirth: '',
+		languages: '',
 	};
 
 	const beginChallenge = () => {

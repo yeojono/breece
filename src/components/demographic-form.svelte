@@ -3,23 +3,24 @@
 		participantNumber: '13',
 		age: '4',
 		gender: 'female',
-		hasAsdDiagnosis: false
+		dateOfBirth: '',
+		languages: '',
 	};
 </script>
 
 <div class="form">
-	<div class="form-row">
-		<label for="participant-number">Participant number:</label>
+	<label for="participant-number">Participant Number:</label>
+	<div class="input-container">
 		<input id="participant-number" type="text" bind:value={fields.participantNumber} />
 	</div>
 
-	<div class="form-row">
-		<label for="age">Age:</label>
+	<label for="age">Age:</label>
+	<div class="input-container">
 		<input id="age" type="text" bind:value={fields.age} />
 	</div>
 
-	<div class="form-row">
-		<label for="gender">Gender:</label>
+	<label for="gender">Gender:</label>
+	<div class="input-container">
 		<select id="gender" bind:value={fields.gender}>
 			<option value="female">Female</option>
 			<option value="male">Male</option>
@@ -27,35 +28,35 @@
 		</select>
 	</div>
 
-	<div class="form-row">
-		<label for="has-asd-diagnosis">Has ASD diagnosis:</label>
-        <input id="has-asd-diagnosis" type="checkbox" bind:checked={fields.hasAsdDiagnosis} />
+	<label for="date-of-birth">Date of Birth:</label>
+	<div class="input-container">
+		<input id="date-of-birth" type="text" bind:value={fields.dateOfBirth} />
+	</div>
+
+	<label for="languages">Languages Other Than English Spoken at Home:</label>
+	<div class="input-container">
+		<input id="languages" type="text" bind:value={fields.languages} />
 	</div>
 </div>
 
 <style>
 	.form {
-		display: flex;
-		flex-direction: column;
-        gap: 8px;
-
-		width: 400px;
-        font-size:x-large;
-
-        margin-bottom: 16px;
+		display: grid;
+		grid-template-columns: 250px 250px;
+		grid-row-gap:    20px;
+		grid-column-gap: 1rem;
+		
+        font-size: 1.3rem;
+		margin-bottom: 24px;
 	}
-	.form-row {
-		display: flex;
-        align-items: center;
-	}
-    
+
     label {
-        min-width: 200px;
-        margin-right: 16px;
         text-align: right;
     }
 
-    input[type=checkbox] {
-        transform: scale(1.3);
-    }
+	.input-container {
+		display: flex;
+		align-items: center;
+	}
+    
 </style>

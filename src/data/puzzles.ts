@@ -32,7 +32,8 @@ export interface PuzzleConfig {
 export const practicePuzzles: { [key: string]: PuzzleConfig } = {
 	'easy1': { puzzleId: 'easy1', sequence: 'ABABABABA', a: 'triangle', b: 'circle' },
 	'medium2': { puzzleId: 'medium2', sequence: 'AABAABAAB', a: 'square', b: 'plus' },
-	'random1': { puzzleId: 'random1', sequence: 'ABAABBBAA', a: 'pentagon', b: 'star' }
+	'random1': { puzzleId: 'random1', sequence: 'ABAABBBAA', a: 'pentagon', b: 'star' },
+	'hard1': { puzzleId: 'hard1', sequence: 'AABAAABAA', a: 'triangle', b: 'octagon' },
 };
 
 export const puzzles: { [key: string]: PuzzleConfig } = {

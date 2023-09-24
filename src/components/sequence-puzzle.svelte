@@ -102,7 +102,7 @@
 	</div>
 	{#if !enteringConfidence}
 		<button class="skip-button" on:click={handleSkip}>
-			Skip
+			🚫 Skip
 		</button>
 	{/if}
 </div>
@@ -120,6 +120,7 @@
 
 	.skip-button {
 		padding: 24px 32px;
+		font-size: 1rem;
 	}
 
 	button {

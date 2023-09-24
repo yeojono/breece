@@ -30,7 +30,8 @@ export interface DemographicInfo {
 	participantNumber: string;
 	age: string;
 	gender: Gender;
-	hasAsdDiagnosis: boolean;
+	dateOfBirth: string;
+	languages: string;
 }
 
 export interface Result {
@@ -129,14 +130,14 @@ export const exportToCsv = () => {
 			`${puzzleId} confidence3`,
 			`${puzzleId} confidence3 time`,
 		]);
-	const headerRow = `id,date,participant number,age,gender,has ASD diagnosis,${puzzleColumns.join(
+	const headerRow = `id,date,participant number,age,gender,date of birth,languages,${puzzleColumns.join(
 		','
 	)}`;
 
 	const dataRows = Object.entries<typeof store.results.puzzleResponses>(store.results)
 		.map(([challengeId, { date, demographicInfo, puzzleResponses, puzzleOrder }]) => {
 			try {
-				let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.hasAsdDiagnosis},`;
+				let dataRow = `${challengeId},${date},${demographicInfo.participantNumber},${demographicInfo.age},${demographicInfo.gender},${demographicInfo.dateOfBirth},${demographicInfo.languages},`;
 				dataRow += Object.keys(puzzles)
 					.map((pid) => {
 						const orderColumn = puzzleOrder.indexOf(pid) + 1
